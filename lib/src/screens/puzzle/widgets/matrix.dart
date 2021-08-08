@@ -12,8 +12,11 @@ class CharacterMatrix extends StatelessWidget {
     required this.textControllers,
     // required this.textFieldKeys,
     required this.formKey,
+    required this.cellHighlightMatrix,
   })  : assert(textControllers.length == rows),
         assert(textControllers.every((row) => row.length == columns)),
+        assert(cellHighlightMatrix.length == rows),
+        assert(cellHighlightMatrix.every((row) => row.length == columns)),
         // assert(textFieldKeys.length == rows),
         // assert(textFieldKeys.every((row) => row.length == columns)),
         super(key: key);
@@ -22,6 +25,8 @@ class CharacterMatrix extends StatelessWidget {
   final int rows;
   final String? Function(String? input) characterValidator;
   final GlobalKey<FormState> formKey;
+
+  final List<List<bool>> cellHighlightMatrix;
 
   final List<List<TextEditingController>> textControllers;
   // final List<List<GlobalKey<FormState>>> textFieldKeys;
@@ -65,12 +70,16 @@ class CharacterMatrix extends StatelessWidget {
             expands: true,
             style: TextStyle(
               fontSize: 32.0,
+              color: cellHighlightMatrix[row][column]
+                  ? Colors.white
+                  : Colors.black,
               fontWeight: FontWeight.bold,
             ),
             decoration: InputDecoration(
               isDense: true,
               filled: true,
-              fillColor: Colors.white,
+              fillColor:
+                  cellHighlightMatrix[row][column] ? Colors.blue : Colors.white,
               errorBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.red),
                 borderRadius: BorderRadius.zero,

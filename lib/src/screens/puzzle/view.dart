@@ -42,6 +42,7 @@ class PuzzleScreen extends StatelessWidget {
                       IconButton(
                         onPressed: () {
                           // Call method to reset the puzzle
+                          controller.refresh();
                         },
                         icon: Icon(Icons.restart_alt_outlined),
                       ),
@@ -58,6 +59,7 @@ class PuzzleScreen extends StatelessWidget {
                       formKey: controller.matrixFormKey,
                       textControllers: controller.matrixTextControllers,
                       characterValidator: controller.validateCharacterInput,
+                      cellHighlightMatrix: controller.cellHighlightMatrix,
                     ),
                   ),
 

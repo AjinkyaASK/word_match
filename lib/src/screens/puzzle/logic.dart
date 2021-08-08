@@ -19,6 +19,15 @@ class PuzzleScreenController extends ChangeNotifier {
       ),
       growable: false,
     );
+    cellHighlightMatrix = List.generate(
+      rows,
+      (i) => List.generate(
+        columns,
+        (i) => false,
+        growable: false,
+      ),
+      growable: false,
+    );
     // matrixTextFieldKeys = List.generate(
     //   rows,
     //   (i) => List.generate(
@@ -39,6 +48,7 @@ class PuzzleScreenController extends ChangeNotifier {
   late final int wordMaxLength;
 
   late final List<List<TextEditingController>> matrixTextControllers;
+  late final List<List<bool>> cellHighlightMatrix;
 
   final GlobalKey<FormState> matrixFormKey = GlobalKey();
   final GlobalKey<FormState> wordInputFormKey = GlobalKey();
@@ -77,7 +87,10 @@ class PuzzleScreenController extends ChangeNotifier {
         matrixFormKey.currentState!.validate() &&
         wordInputFormKey.currentState != null &&
         wordInputFormKey.currentState!.validate()) {
-      print('All Validated');
+      /// All validated, now begin the word search
+
     }
   }
+
+  // Future<>
 }
