@@ -11,7 +11,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: PuzzleScreen(
         rows: 4,
-        columns: 5,
+        columns: 4,
       ),
     );
   }
