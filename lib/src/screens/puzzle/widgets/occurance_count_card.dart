@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:word_match/src/values/labels.dart';
 
-class ScoreCard extends StatelessWidget {
-  const ScoreCard({
+import '../../../values/labels.dart';
+
+class OccuranceCountCard extends StatelessWidget {
+  const OccuranceCountCard({
     Key? key,
-    required this.score,
+    required this.occurances,
   }) : super(key: key);
 
-  final int score;
+  final int occurances;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ScoreCard extends StatelessWidget {
             child: Text(Labels.wordOccurances),
           ),
           Text(
-            score.toString(),
+            occurances.toString(),
           ),
         ],
       ),

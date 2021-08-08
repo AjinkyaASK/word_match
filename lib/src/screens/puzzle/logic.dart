@@ -1,13 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
-import 'package:word_match/src/values/regex.dart';
+import '../../values/labels.dart';
+import '../../values/regex.dart';
 
 class PuzzleScreenController extends ChangeNotifier {
   PuzzleScreenController({
     required this.rows,
     required this.columns,
   }) {
+    wordMaxLength = [rows, columns].reduce(max);
     matrixTextControllers = List.generate(
       rows,
       (i) => List.generate(
@@ -17,15 +19,15 @@ class PuzzleScreenController extends ChangeNotifier {
       ),
       growable: false,
     );
-    matrixTextFieldKeys = List.generate(
-      rows,
-      (i) => List.generate(
-        columns,
-        (i) => GlobalKey(),
-        growable: false,
-      ),
-      growable: false,
-    );
+    // matrixTextFieldKeys = List.generate(
+    //   rows,
+    //   (i) => List.generate(
+    //     columns,
+    //     (i) => GlobalKey(),
+    //     growable: false,
+    //   ),
+    //   growable: false,
+    // );
   }
 
   final TextEditingController wordInputTextController = TextEditingController();
@@ -33,8 +35,15 @@ class PuzzleScreenController extends ChangeNotifier {
   final int rows;
   final int columns;
 
+  /// [wordMaxLength] is the maximum possible length of word the matrix can contain
+  late final int wordMaxLength;
+
   late final List<List<TextEditingController>> matrixTextControllers;
-  late final List<List<GlobalKey<FormState>>> matrixTextFieldKeys;
+
+  final GlobalKey<FormState> matrixFormKey = GlobalKey();
+  final GlobalKey<FormState> wordInputFormKey = GlobalKey();
+
+  // late final List<List<GlobalKey<FormState>>> matrixTextFieldKeys;
 
   void refresh() => notifyListeners();
 
@@ -42,25 +51,33 @@ class PuzzleScreenController extends ChangeNotifier {
     /// `maxLengthAllowed` is always 1 as we are validating a single character
     const int maxLengthAllowed = 1;
 
-    if (input == null) return 'This is a required field';
-    if (input.isEmpty) return 'This is a required field';
-    if (input.length != maxLengthAllowed)
-      return 'Only one character is allowed per block';
-    if (!Regexs.alphaNumeric.hasMatch(input))
-      return 'Only aphabets and numbers are allowed (No spaces or special characters)';
+    /// Here we are always returning empty string as we do not want to show any error text
+    /// Instead just to trigger the behaviour
+    if (input == null) return '';
+    if (input.isEmpty) return '';
+    if (input.length != maxLengthAllowed) return '';
+    if (!Regexs.alphaNumeric.hasMatch(input)) return '';
     return null;
   }
 
   String? validateWordInput(String? input) {
-    /// `maxLengthAllowed` is the maximum possible length of word the matrix can contain
-    final int maxLengthAllowed = <int>[rows, columns].reduce(max);
+    final int maxLengthAllowed = wordMaxLength;
 
-    if (input == null) return 'This is a required field';
-    if (input.isEmpty) return 'This is a required field';
+    if (input == null) return Labels.requiredFieldErrorMessage;
+    if (input.isEmpty) return Labels.requiredFieldErrorMessage;
     if (input.length > maxLengthAllowed)
-      return 'As per the matrix size, word cannot be more than $maxLengthAllowed characters in length';
+      return '${Labels.wordLengthExceededErrorMessagePart1} $maxLengthAllowed ${Labels.wordLengthExceededErrorMessagePart2}';
     if (!Regexs.alphaNumeric.hasMatch(input))
-      return 'Only aphabets and numbers are allowed (No spaces or special characters)';
+      return Labels.onlyAlphanumericInputAllowedErrorMessage;
     return null;
+  }
+
+  Future<void> onWordSubmit() async {
+    if (matrixFormKey.currentState != null &&
+        matrixFormKey.currentState!.validate() &&
+        wordInputFormKey.currentState != null &&
+        wordInputFormKey.currentState!.validate()) {
+      print('All Validated');
+    }
   }
 }

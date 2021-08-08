@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../../../values/regex.dart';
 
 class CharacterMatrix extends StatelessWidget {
   CharacterMatrix({
@@ -7,27 +10,34 @@ class CharacterMatrix extends StatelessWidget {
     required this.rows,
     required this.characterValidator,
     required this.textControllers,
-    required this.textFieldKeys,
+    // required this.textFieldKeys,
+    required this.formKey,
   })  : assert(textControllers.length == rows),
         assert(textControllers.every((row) => row.length == columns)),
-        assert(textFieldKeys.length == rows),
-        assert(textFieldKeys.every((row) => row.length == columns)),
+        // assert(textFieldKeys.length == rows),
+        // assert(textFieldKeys.every((row) => row.length == columns)),
         super(key: key);
 
   final int columns;
   final int rows;
   final String? Function(String? input) characterValidator;
+  final GlobalKey<FormState> formKey;
 
   final List<List<TextEditingController>> textControllers;
-  final List<List<GlobalKey<FormState>>> textFieldKeys;
+  // final List<List<GlobalKey<FormState>>> textFieldKeys;
 
-  late final List<Widget?> gridBlocks;
+  late final List<Widget> gridBlocks;
 
-  Future<void> initMatrix() async {
+  Future<bool> initMatrix() async {
     /// Assign correct length
     gridBlocks = List.generate(
       rows * columns,
-      (i) => null,
+      (i) => Container(
+        width: 40.0,
+        height: 40.0,
+        color: Colors.grey,
+        child: Text('?'),
+      ),
       growable: false,
     );
 
@@ -35,17 +45,86 @@ class CharacterMatrix extends StatelessWidget {
     int gridIndex = 0;
     for (int row = 0; row < rows; row++) {
       for (int column = 0; column < columns; column++) {
-        gridBlocks[gridIndex++] = TextFormField(
-          key: textFieldKeys[row][column],
-          controller: textControllers[row][column],
-          validator: characterValidator,
+        gridBlocks[gridIndex++] = SizedBox(
+          width: 40.0,
+          height: 40.0,
+          child: TextFormField(
+            // key: textFieldKeys[row][column],
+            controller: textControllers[row][column],
+            validator: characterValidator,
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(Regexs.alphaNumeric),
+            ],
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.continueAction,
+            textAlign: TextAlign.center,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            maxLength: 1,
+            minLines: null, //Required for the expands property to work
+            maxLines: null, //Required for the expands property to work
+            expands: true,
+            style: TextStyle(
+              fontSize: 32.0,
+              fontWeight: FontWeight.bold,
+            ),
+            decoration: InputDecoration(
+              isDense: true,
+              filled: true,
+              fillColor: Colors.white,
+              errorBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.red),
+                borderRadius: BorderRadius.zero,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade400),
+                borderRadius: BorderRadius.zero,
+              ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey.shade400),
+                borderRadius: BorderRadius.zero,
+              ),
+              counterText: '',
+              errorStyle: TextStyle(height: 0),
+              hintText: gridIndex.toString(),
+              hintStyle: TextStyle(
+                color: Colors.grey.shade200,
+                fontWeight: FontWeight.bold,
+                fontSize: 32.0,
+              ),
+            ),
+          ),
         );
       }
     }
+
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return FutureBuilder(
+      future: initMatrix(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done)
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        return Container(
+          constraints: BoxConstraints(
+            maxWidth: 400.0,
+          ),
+          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+          child: Form(
+            key: formKey,
+            child: GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: rows,
+              children: gridBlocks,
+            ),
+          ),
+        );
+      },
+    );
   }
 }
