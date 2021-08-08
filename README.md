@@ -6,12 +6,12 @@
 
 <h4 align="center">A simple word match app built with <a href="https://flutter.dev/" target="_blank">Flutter</a>.</h4>
 
-<!-- <p align="center">
+<p align="center">
   <a href="https://github.com/AjinkyaASK/themoviesapp">
-    <img src="https://raw.githubusercontent.com/AjinkyaASK/themoviesapp/master/screenshots/TheMoviesApp%20-%20GitHub%20Banner.png"
+    <img src="https://raw.githubusercontent.com/AjinkyaASK/word_match/master/screenshots/TheWordMatchApp%20-%20GitHub%20Banner.jpg"
          alt="Flutter">
   </a>
-</p> -->
+</p>
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
@@ -60,6 +60,7 @@ You can [download](https://github.com/AjinkyaASK/word_match/) this repository an
 This software uses the following open source packages:
 
 - [Provider](https://pub.dev/packages/provider)
+- [Flutter Launcher Icons](flutter_launcher_icons: ^0.9.1)
 - [Cupurtino Icons](https://pub.dev/packages/cupertino_icons)
 
 ## Support
