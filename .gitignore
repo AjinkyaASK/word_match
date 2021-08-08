@@ -1,0 +1,13 @@
+.dart_tool
+.idea
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache
+.pub
+/build/
+lib/generated_plugin_registrant.dart
+/android/build
+/android/app/debug
+/android/app/profile
+/android/app/release
