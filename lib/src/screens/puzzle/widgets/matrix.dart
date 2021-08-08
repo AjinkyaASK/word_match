@@ -61,7 +61,7 @@ class CharacterMatrix extends StatelessWidget {
               FilteringTextInputFormatter.allow(Regexs.alphaNumeric),
             ],
             keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.continueAction,
+            textInputAction: TextInputAction.next,
             textAlign: TextAlign.center,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             maxLength: 1,
@@ -69,7 +69,7 @@ class CharacterMatrix extends StatelessWidget {
             maxLines: null, //Required for the expands property to work
             expands: true,
             style: TextStyle(
-              fontSize: 32.0,
+              fontSize: 24.0,
               color: cellHighlightMatrix[row][column]
                   ? Colors.white
                   : Colors.black,
@@ -77,6 +77,7 @@ class CharacterMatrix extends StatelessWidget {
             ),
             decoration: InputDecoration(
               isDense: true,
+              contentPadding: EdgeInsets.zero,
               filled: true,
               fillColor:
                   cellHighlightMatrix[row][column] ? Colors.blue : Colors.white,
@@ -94,11 +95,11 @@ class CharacterMatrix extends StatelessWidget {
               ),
               counterText: '',
               errorStyle: TextStyle(height: 0),
-              hintText: gridIndex.toString(),
+              hintText: '',
               hintStyle: TextStyle(
                 color: Colors.grey.shade200,
                 fontWeight: FontWeight.bold,
-                fontSize: 32.0,
+                fontSize: 24.0,
               ),
             ),
           ),

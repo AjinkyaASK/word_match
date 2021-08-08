@@ -27,6 +27,19 @@ class PuzzleScreen extends StatelessWidget {
       child: Consumer<PuzzleScreenController>(
         builder: (_, controller, ___) {
           return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              centerTitle: true,
+              iconTheme: IconThemeData(
+                color: Colors.black,
+              ),
+              title: Text(
+                Labels.appName,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ),
             body: SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
               child: Column(
@@ -37,12 +50,12 @@ class PuzzleScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       OccuranceCountCard(
-                          occurances: 0 // Pass actual occurances count here
-                          ),
+                        occurances: controller.occuranceCount,
+                      ),
                       IconButton(
                         onPressed: () {
                           // Call method to reset the puzzle
-                          controller.refresh();
+                          controller.restart(context);
                         },
                         icon: Icon(Icons.restart_alt_outlined),
                       ),
@@ -88,7 +101,7 @@ class PuzzleScreen extends StatelessWidget {
                         vertical: 24.0,
                       )),
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24.0))),
+                          borderRadius: BorderRadius.circular(32.0))),
                       foregroundColor: MaterialStateProperty.all(Colors.white),
                       backgroundColor:
                           MaterialStateProperty.resolveWith((states) {
@@ -98,11 +111,12 @@ class PuzzleScreen extends StatelessWidget {
                       }),
                     ),
                     child: SizedBox(
-                        width: double.maxFinite,
-                        child: Text(
-                          Labels.findMatchButton,
-                          textAlign: TextAlign.center,
-                        )),
+                      width: double.maxFinite,
+                      child: Text(
+                        Labels.findMatchButton,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
                 ],
               ),

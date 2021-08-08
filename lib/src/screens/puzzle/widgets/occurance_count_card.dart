@@ -18,10 +18,20 @@ class OccuranceCountCard extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
-            child: Text(Labels.wordOccurances),
+            child: Text(
+              Labels.wordOccurances,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           Text(
             occurances.toString(),
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),

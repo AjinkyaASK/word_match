@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:word_match/src/screens/start_screen/view.dart';
 
 import '../../values/labels.dart';
 import '../../values/regex.dart';
@@ -104,6 +106,14 @@ class PuzzleScreenController extends ChangeNotifier {
 
   void refresh() => notifyListeners();
 
+  void restart(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => StartScreen(),
+      ),
+    );
+  }
+
   /// [validateCharacterInput] to be used for the validation of single character input from the matrix cells
   String? validateCharacterInput(String? input) {
     /// `maxLengthAllowed` is always 1 as we are validating a single character
@@ -154,7 +164,7 @@ class PuzzleScreenController extends ChangeNotifier {
       /// STEP 2: Get word occurances
       final List<WordOccurance> occurances =
           await _searchForWord(wordInputTextController.text);
-      this.occuranceCount = occurances.length;
+      occuranceCount = occurances.length;
 
       /// STEP 3: populate [cellHighlightMatrix] from word occurances
       occurances.forEach((occurance) {
