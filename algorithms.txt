@@ -1,0 +1,23 @@
+# Higher level logic to find word occurances
+/// STEP 1: Clear any highlighted cells
+/// STEP 2: Get word occurances
+/// STEP 3: populate [cellHighlightMatrix] from word occurances
+/// STEP 3: Rebuild UI to show results
+
+# Lower level logic / algorithm to find word occurances
+/// STEP 0: Start by creating a empty list of word occurances
+/// STEP 1: Iterate over all cells
+/// STEP 2: Create a empty list of cells for holding temporarily
+/// STEP 3: Check for next occurance of first char from word
+/// STEP 4: If found, add it to the temp list of cells
+/// STEP 5: Iterate on directions list
+/// STEP 6: Clear the temporary cells list and add the cell with first character to it
+/// STEP 7: Create new row and column indexes with offset added
+/// STEP 8. Check for occurance of next char from word in direction selected in STEP 5
+/// STEP 9: If found, add it to the temp list of cells
+/// STEP 10: Recalculate new row and column indexes by adding the offset, go to STEP 8
+/// STEP 11: If not found, clear temp list of cells, break and go to STEP 5
+/// STEP 12: If length of temp list of cells is equal to the length of word, add these cells to word occurances list and go to STEP 5
+/// STEP 13: If its not end of columns, then go to STEP 1
+/// STEP 14: If its not end of rows, then go to STEP 1
+/// STEP 15: Once all cells have been visited, return the list of word occurances and stop

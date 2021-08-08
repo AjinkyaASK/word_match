@@ -113,15 +113,3 @@ class PuzzleScreen extends StatelessWidget {
     );
   }
 }
-
-
-/// 0. Create list of word occurances
-/// 1. Check for next occurance of first char from word
-/// 2. If found, add it to the temp list of cells
-/// 3. Iterate on directions list
-/// 4. Check for occurance of next char from word in direction
-/// 5. If found, add it to the temp list of cells and go to Step 4
-/// 6. If not, clear temp list of cells, break and go to step 3
-/// 7. If length of temp list of cells is equal to length of word, add these cells to word occurances list and go to step 3
-/// 8. If its not end of word, then go to step 1
-/// 9. If yes, return list of word occurances
