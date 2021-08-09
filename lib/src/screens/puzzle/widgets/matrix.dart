@@ -50,56 +50,60 @@ class CharacterMatrix extends StatelessWidget {
     int gridIndex = 0;
     for (int row = 0; row < rows; row++) {
       for (int column = 0; column < columns; column++) {
-        gridBlocks[gridIndex++] = SizedBox(
-          width: 40.0,
-          height: 40.0,
-          child: TextFormField(
-            // key: textFieldKeys[row][column],
-            controller: textControllers[row][column],
-            validator: characterValidator,
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(Regexs.alphaNumeric),
-            ],
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            textAlign: TextAlign.center,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            maxLength: 1,
-            minLines: null, //Required for the expands property to work
-            maxLines: null, //Required for the expands property to work
-            expands: true,
-            style: TextStyle(
-              fontSize: 24.0,
-              color: cellHighlightMatrix[row][column]
-                  ? Colors.white
-                  : Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-            decoration: InputDecoration(
-              isDense: true,
-              contentPadding: EdgeInsets.zero,
-              filled: true,
-              fillColor:
-                  cellHighlightMatrix[row][column] ? Colors.blue : Colors.white,
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.red),
-                borderRadius: BorderRadius.zero,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade400),
-                borderRadius: BorderRadius.zero,
-              ),
-              border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade400),
-                borderRadius: BorderRadius.zero,
-              ),
-              counterText: '',
-              errorStyle: TextStyle(height: 0),
-              hintText: '',
-              hintStyle: TextStyle(
-                color: Colors.grey.shade200,
-                fontWeight: FontWeight.bold,
+        gridBlocks[gridIndex++] = Container(
+          padding: const EdgeInsets.all(2.0),
+          child: SizedBox(
+            width: 40.0,
+            height: 40.0,
+            child: TextFormField(
+              // key: textFieldKeys[row][column],
+              controller: textControllers[row][column],
+              validator: characterValidator,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(Regexs.alphaNumeric),
+              ],
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              textAlign: TextAlign.center,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              maxLength: 1,
+              minLines: null, //Required for the expands property to work
+              maxLines: null, //Required for the expands property to work
+              expands: true,
+              style: TextStyle(
                 fontSize: 24.0,
+                color: cellHighlightMatrix[row][column]
+                    ? Colors.white
+                    : Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+                filled: true,
+                fillColor: cellHighlightMatrix[row][column]
+                    ? Colors.blue
+                    : Colors.grey.shade100,
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.red),
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(4.0),
+                ),
+                counterText: '',
+                errorStyle: TextStyle(height: 0),
+                hintText: '',
+                hintStyle: TextStyle(
+                  color: Colors.grey.shade200,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24.0,
+                ),
               ),
             ),
           ),
@@ -123,7 +127,11 @@ class CharacterMatrix extends StatelessWidget {
           constraints: BoxConstraints(
             maxWidth: 400.0,
           ),
-          decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+          // clipBehavior: Clip.hardEdge,
+          // decoration: BoxDecoration(
+          //   border: Border.all(color: Colors.grey.shade600),
+          //   borderRadius: BorderRadius.circular(4.0),
+          // ),
           child: Form(
             key: formKey,
             child: GridView.count(

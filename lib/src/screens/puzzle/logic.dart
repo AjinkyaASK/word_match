@@ -13,6 +13,7 @@ enum SearchDirection {
   TopDown,
   LeftRight,
   TopRightLeftBottom,
+  Unknown,
 }
 
 class PuzzleScreenController extends ChangeNotifier {
@@ -99,8 +100,8 @@ class PuzzleScreenController extends ChangeNotifier {
   /// [wordInputFormKey] is used for the form widget of word input for validation purpose
   final GlobalKey<FormState> wordInputFormKey = GlobalKey();
 
-  /// [occuranceCount] indicates the count of occurances of the word in the matrix
-  int occuranceCount = 0;
+  /// [wordOccurances] contains occurances of the word in the matrix
+  final List<WordOccurance> wordOccurances = [];
 
   // late final List<List<GlobalKey<FormState>>> matrixTextFieldKeys;
 
@@ -164,7 +165,8 @@ class PuzzleScreenController extends ChangeNotifier {
       /// STEP 2: Get word occurances
       final List<WordOccurance> occurances =
           await _searchForWord(wordInputTextController.text);
-      occuranceCount = occurances.length;
+      wordOccurances.clear();
+      wordOccurances.addAll(occurances);
 
       /// STEP 3: populate [cellHighlightMatrix] from word occurances
       occurances.forEach((occurance) {
@@ -182,7 +184,7 @@ class PuzzleScreenController extends ChangeNotifier {
   /// This method takes a [String] and returns a list of [WordOccurance] for the provided string from the matrix
   Future<List<WordOccurance>> _searchForWord(String word) async {
     /// STEP 0: Start by creating a empty list of word occurances
-    final List<WordOccurance> wordOccurances = [];
+    final List<WordOccurance> occurances = [];
 
     /// STEP 1: Iterate over all cells
     for (int row = 0; row < rows; row++) {
@@ -241,13 +243,15 @@ class PuzzleScreenController extends ChangeNotifier {
 
               /// STEP 12: If length of temp list of cells is equal to the length of word, add these cells to word occurances list and go to STEP 5
               if (tempCells.length == word.length) {
-                wordOccurances
-                    .add(WordOccurance(List.from(tempCells, growable: false)));
+                occurances.add(WordOccurance(
+                    List.from(tempCells, growable: false), direction));
               }
             });
           } else {
-            wordOccurances
-                .add(WordOccurance(List.from(tempCells, growable: false)));
+            occurances.add(WordOccurance(
+              List.from(tempCells, growable: false),
+              SearchDirection.Unknown,
+            ));
           }
         }
 
@@ -258,6 +262,6 @@ class PuzzleScreenController extends ChangeNotifier {
     }
 
     /// STEP 15: Once all cells have been visited, return the list of word occurances and stop
-    return wordOccurances;
+    return occurances;
   }
 }

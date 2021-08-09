@@ -28,7 +28,8 @@ class PuzzleScreen extends StatelessWidget {
         builder: (_, controller, ___) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.transparent,
+              elevation: 0.0,
               centerTitle: true,
               iconTheme: IconThemeData(
                 color: Colors.black,
@@ -39,6 +40,15 @@ class PuzzleScreen extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    // Call method to reset the puzzle
+                    controller.restart(context);
+                  },
+                  icon: Icon(Icons.restart_alt_outlined),
+                ),
+              ],
             ),
             body: SingleChildScrollView(
               padding: const EdgeInsets.all(24.0),
@@ -46,20 +56,45 @@ class PuzzleScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Occurances Count + Actions
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      OccuranceCountCard(
-                        occurances: controller.occuranceCount,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // Call method to reset the puzzle
-                          controller.restart(context);
-                        },
-                        icon: Icon(Icons.restart_alt_outlined),
-                      ),
-                    ],
+                  SizedBox(
+                    width: double.maxFinite,
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      runAlignment: WrapAlignment.spaceBetween,
+                      children: [
+                        OccuranceCountCard(
+                          title: 'Total',
+                          occurances: controller.wordOccurances.length,
+                        ),
+                        OccuranceCountCard(
+                          title: 'Left to right',
+                          occurances: controller.wordOccurances
+                              .where((occurance) =>
+                                  occurance.direction ==
+                                  SearchDirection.LeftRight)
+                              .toList()
+                              .length,
+                        ),
+                        OccuranceCountCard(
+                          title: 'Top to bottom',
+                          occurances: controller.wordOccurances
+                              .where((occurance) =>
+                                  occurance.direction ==
+                                  SearchDirection.TopDown)
+                              .toList()
+                              .length,
+                        ),
+                        OccuranceCountCard(
+                          title: 'Diagonal',
+                          occurances: controller.wordOccurances
+                              .where((occurance) =>
+                                  occurance.direction ==
+                                  SearchDirection.TopRightLeftBottom)
+                              .toList()
+                              .length,
+                        ),
+                      ],
+                    ),
                   ),
 
                   // Character Matrix
@@ -98,7 +133,7 @@ class PuzzleScreen extends StatelessWidget {
                     style: ButtonStyle(
                       padding:
                           MaterialStateProperty.all(const EdgeInsets.symmetric(
-                        vertical: 24.0,
+                        vertical: 20.0,
                       )),
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(32.0))),
@@ -115,6 +150,9 @@ class PuzzleScreen extends StatelessWidget {
                       child: Text(
                         Labels.findMatchButton,
                         textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
                       ),
                     ),
                   ),

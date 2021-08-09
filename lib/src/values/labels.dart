@@ -12,7 +12,7 @@ class Labels {
 
   // For Start Screen
   static const enterMatrixSizeMessage = 'Enter the size of the 2D word matrix';
-  static const goButton = 'Lets Go!';
+  static const goButton = 'Lets Go';
   static const rowsTextInputHint = 'Rows';
   static const rowsAndColumnsSeparator = 'X';
   static const columnsTextInputHint = 'Cols';
@@ -21,7 +21,7 @@ class Labels {
   static const wordOccurances = 'Occurances';
   static const wordInputTextFieldHint = 'Word to find';
   static const maxLength = 'max length';
-  static const findMatchButton = 'Find Match!';
+  static const findMatchButton = 'Find Match';
   static const wordLengthExceededErrorMessagePart1 =
       'As per the matrix size, word cannot be more than';
   static const wordLengthExceededErrorMessagePart2 = 'characters in length';
